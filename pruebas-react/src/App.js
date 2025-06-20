@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import './App.css';
+import Home from "./components/Home";
 import UserList from "./components/UserList";
 import UserDetail from "./components/UserDetail";
 import UserForm from "./components/UserForm";
@@ -9,11 +10,12 @@ function App() {
     <Router>
       <div className="App">
         <Routes>
-          <Route path="/" element={<Navigate to="/usuarios" />} />
+          <Route path="/" element={<Home />} />
           <Route path="/usuarios" element={<UserList />} />
           <Route path="/usuarios/nuevo" element={<UserForm />} />
           <Route path="/usuarios/:id" element={<UserDetail />} />
           <Route path="/usuarios/:id/editar" element={<UserForm />} />
+          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </div>
     </Router>
@@ -21,4 +23,3 @@ function App() {
 }
 
 export default App;
-
