@@ -21,3 +21,24 @@ export async function createUser(data) {
   if (!res.ok) throw new Error("Error al crear usuario");
   return res.json();
 }
+
+export async function deleteUser(id) {
+  const res = await fetch(`${API_URL}/${id}`, {
+    method: "DELETE",
+    headers: {
+      "x-api-key": "reqres-free-v1",
+    },
+  });
+  if (!res.ok) throw new Error("Error al eliminar usuario");
+  return res;
+}
+
+export async function updateUser(id, data) {
+  const res = await fetch(`${API_URL}/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json", "x-api-key": "reqres-free-v1" },
+    body: JSON.stringify(data),
+  });
+  if (!res.ok) throw new Error("Error al actualizar usuario");
+  return res.json();
+}
