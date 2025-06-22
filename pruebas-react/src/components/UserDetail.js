@@ -10,18 +10,23 @@ function UserDetail({ userId, onBack, onUpdate }) {
 
   useEffect(() => {
     fetchUser(userId)
-      .then(data => setUser(data.data))
-      .catch(err => setError('Error al cargar el usuario'));
+      .then(data => {
+        if (!data.data) {
+          setError('Detalles no disponibles para este usuario (API de prueba).');
+        } else {
+          setUser(data.data);
+        }
+      })
+      .catch(() => setError('Error al cargar el usuario'));
   }, [userId]);
 
-  // Handler para eliminar usuario
   const handleDelete = async () => {
     if (window.confirm('¿Seguro que quieres eliminar este usuario?')) {
       try {
         await deleteUser(userId);
         alert('Usuario eliminado');
-        if (onUpdate) onUpdate(); // Recarga la lista
-        if (onBack) onBack();     // Cierra el modal
+        if (onUpdate) onUpdate(); 
+        if (onBack) onBack();  
       } catch (err) {
         setError('Error al eliminar usuario');
       }
@@ -37,12 +42,14 @@ function UserDetail({ userId, onBack, onUpdate }) {
       <img src={user.avatar} alt={user.first_name} style={{ width: 100, borderRadius: '50%' }} />
       <p><strong>Nombre:</strong> {user.first_name} {user.last_name}</p>
       <p><strong>Email:</strong> {user.email}</p>
-      <button onClick={handleDelete} style={{ color: 'red', marginTop: 16 }}>Eliminar usuario</button>
+      <button onClick={handleDelete}>
+        Eliminar usuario
+      </button>
       <button
         onClick={() => {
           navigate(`/usuarios/${userId}/editar`);
-          if (onUpdate) onUpdate(); // Opcional: recarga la lista al editar
-          if (onBack) onBack();     // Cierra el modal
+          if (onUpdate) onUpdate();
+          if (onBack) onBack();
         }}
         style={{ marginLeft: 16 }}
       >

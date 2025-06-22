@@ -48,53 +48,44 @@ function UserList() {
   const closeModal = () => setSelectedUserId(null);
 
   return (
-    <div>
+    <div className="app-container">
       <h2>Listado de Usuarios - Página {page}</h2>
 
       {loading && <p>Cargando usuarios...</p>}
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+      {error && <p className="error-message">{error}</p>}
 
-      <ul style={{ listStyle: 'none', padding: 0 }}>
+      <div className="user-grid">
         {users.map(user => (
-          <li
+          <div
             key={user.id}
-            style={{ marginBottom: '20px', cursor: 'pointer' }}
+            className="user-card"
+            onClick={() => setSelectedUserId(user.id)}
           >
             <img
               src={user.avatar}
               alt={user.first_name}
-              style={{ width: 50, borderRadius: '50%' }}
-              onClick={() => setSelectedUserId(user.id)}
+              className="user-avatar"
             />
             <div>
               <strong>{user.first_name} {user.last_name}</strong><br />
               <small>{user.email}</small>
             </div>
-          </li>
+          </div>
         ))}
-      </ul>
+      </div>
 
       <button onClick={handlePrev} disabled={page === 1}>Anterior</button>
       <button onClick={handleNext} disabled={page === totalPages}>Siguiente</button>
 
-      {/* Modal */}
       {selectedUserId && (
-        <div style={{
-          position: 'fixed',
-          top: 0, left: 0, width: '100vw', height: '100vh',
-          background: 'rgba(0,0,0,0.5)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          zIndex: 1000
-        }}>
-          <div style={{
-            background: '#fff', padding: 24, borderRadius: 8, minWidth: 320, position: 'relative'
-          }}>
+        <div className="modal-overlay">
+          <div className="modal-content">
             <button
               onClick={closeModal}
-              style={{
-                position: 'absolute', top: 8, right: 8, background: 'transparent', border: 'none', fontSize: 20, cursor: 'pointer'
-              }}
-            >×</button>
+              className="close-modal-btn"
+            >
+              ×
+            </button>
             <UserDetail
               userId={selectedUserId}
               onBack={closeModal}

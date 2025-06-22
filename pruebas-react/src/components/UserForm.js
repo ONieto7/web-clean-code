@@ -56,24 +56,8 @@ function UserForm() {
   };
 
   return (
-    <div
-      style={{
-        minHeight: '100vh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        background: '#f5f5f5'
-      }}
-    >
-      <form
-        onSubmit={handleSubmit}
-        style={{
-          padding: 20,
-          background: '#fff',
-          borderRadius: 10,
-          boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
-        }}
-      >
+    <div className="user-form-container">
+      <form className="user-form" onSubmit={handleSubmit}>
         <h2>{id ? `Editar Usuario ID: ${id}` : 'Crear Nuevo Usuario'}</h2>
         <input
           name="name"
@@ -81,7 +65,6 @@ function UserForm() {
           value={form.name}
           onChange={handleChange}
           required
-          style={{ display: 'block', margin: '10px 0' }}
         />
         <input
           name="email"
@@ -90,30 +73,23 @@ function UserForm() {
           value={form.email}
           onChange={handleChange}
           required
-          style={{ display: 'block', margin: '10px 0' }}
         />
-        <div style={{ margin: '10px 0' }}>
+        <div>
           <p>Elige un avatar:</p>
-          <div style={{ display: 'flex', gap: 16 }}>
+          <div className="avatar-list">
             {AVATARS.map((avatar, idx) => (
               <img
                 key={idx}
                 src={avatar}
                 alt={`Avatar ${idx + 1}`}
-                style={{
-                  width: 60,
-                  height: 60,
-                  borderRadius: '50%',
-                  border: form.avatar === avatar ? '3px solid #007bff' : '2px solid #ccc',
-                  cursor: 'pointer',
-                }}
+                className={form.avatar === avatar ? 'selected' : ''}
                 onClick={() => handleAvatarSelect(avatar)}
               />
             ))}
           </div>
         </div>
         <button type="submit">{id ? 'Actualizar' : 'Crear'}</button>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
+        {error && <p className="error-message">{error}</p>}
       </form>
     </div>
   );

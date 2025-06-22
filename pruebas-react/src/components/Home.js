@@ -4,15 +4,17 @@ function Home() {
   const navigate = useNavigate();
 
   return (
-    <div style={{ padding: '20px' }}>
+    <div className="home-container">
       <h1>Prueba técnica: CRUD de usuarios</h1>
       <p>Bienvenido, elige una opción:</p>
-      <button onClick={() => navigate('/usuarios')} style={{ margin: '10px' }}>
-        Ver usuarios
-      </button>
-      <button onClick={() => navigate('/usuarios/nuevo')} style={{ margin: '10px' }}>
-        Crear nuevo usuario
-      </button>
+      <div className="home-buttons">
+        <button onClick={() => navigate('/usuarios')}>
+          Ver usuarios
+        </button>
+        <button onClick={() => navigate('/usuarios/nuevo')}>
+          Crear nuevo usuario
+        </button>
+      </div>
     </div>
   );
 }
