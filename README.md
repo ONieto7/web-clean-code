@@ -10,6 +10,7 @@ Mejoras
 - Alerts --> Sustituirlo por modales
 - Los if's siempre con llaves
 - Nunca estilos en Linea
+
 - En los tests nunca hay logica
 - Tests: Probamos flujo completo
 - https://medium.com/@michikatrins/unit-testing-and-the-arrange-act-and-assert-aaa-pattern-espa%C3%B1ol-54ba67d28859
