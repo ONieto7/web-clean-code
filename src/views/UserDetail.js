@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { deleteUser, fetchUser } from '../services/userService'; 
+import UserRepository from '../repositories/userRepository';
+import { mapUserFromApi } from '../mappers/userMapper';
 import './UserDetail.css';
 import Button from '../components/Button';
-import Avatar from '../components/Avatar'; 
-import Alert from '../components/Alert'; 
+import Avatar from '../components/Avatar';
+import Alert from '../components/Alert';
 
 function UserDetail({ userId, onBack, onUpdate }) {
   const [user, setUser] = useState(null);
@@ -13,12 +14,13 @@ function UserDetail({ userId, onBack, onUpdate }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchUser(userId)
+    UserRepository.getById(userId)
       .then(data => {
-        if (!data.data) {
+        if (!data?.data) {
           setError('Detalles no disponibles para este usuario (API de prueba).');
         } else {
-          setUser(data.data);
+          const mappedUser = mapUserFromApi(data.data);
+          setUser(mappedUser);
         }
       })
       .catch(() => {
@@ -29,14 +31,10 @@ function UserDetail({ userId, onBack, onUpdate }) {
   const handleDelete = async () => {
     if (window.confirm('¿Seguro que quieres eliminar este usuario?')) {
       try {
-        await deleteUser(userId);
+        await UserRepository.delete(userId);
         setSuccess('Usuario eliminado');
-        if (onUpdate) {
-          onUpdate();
-        }
-        if (onBack) {
-          onBack();
-        }
+        onUpdate?.();
+        onBack?.();
       } catch (err) {
         setError('Error al eliminar usuario');
       }
@@ -46,6 +44,7 @@ function UserDetail({ userId, onBack, onUpdate }) {
   if (error) {
     return <Alert type="error">{error}</Alert>;
   }
+
   if (!user) {
     return <Alert type="info">Cargando detalles...</Alert>;
   }
@@ -57,18 +56,12 @@ function UserDetail({ userId, onBack, onUpdate }) {
       <Avatar src={user.avatar} alt={user.first_name} size={100} />
       <p><strong>Nombre:</strong> {user.first_name} {user.last_name}</p>
       <p><strong>Email:</strong> {user.email}</p>
-      <Button onClick={handleDelete}>
-        Eliminar usuario
-      </Button>
+      <Button onClick={handleDelete}>Eliminar usuario</Button>
       <Button
         onClick={() => {
           navigate(`/usuarios/${userId}/editar`);
-          if (onUpdate) {
-            onUpdate();
-          }
-          if (onBack) {
-            onBack();
-          }
+          onUpdate?.();
+          onBack?.();
         }}
         style={{ marginLeft: 16 }}
       >
@@ -79,4 +72,5 @@ function UserDetail({ userId, onBack, onUpdate }) {
 }
 
 export default UserDetail;
+
 

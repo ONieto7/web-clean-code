@@ -5,7 +5,9 @@ import Button from '../components/Button';
 import Avatar from '../components/Avatar';
 import Alert from '../components/Alert';
 import Modal from '../components/Modal';
-import { fetchUsers as fetchUsersService } from '../services/userService';
+
+import userRepository from '../repositories/userRepository';
+import { mapUserFromApi } from '../mappers/userMapper';
 
 function UserList() {
   const [users, setUsers] = useState([]);
@@ -19,12 +21,13 @@ function UserList() {
     setLoading(true);
     setError(null);
     try {
-      const data = await fetchUsersService(pageNumber);
-      setUsers(data.data);
+      const data = await userRepository.getAll(pageNumber);
+      const usersMapped = data.data.map(mapUserFromApi);
+      setUsers(usersMapped);
       setTotalPages(data.total_pages);
       setPage(data.page);
     } catch (err) {
-      setError(err.message);
+      setError(err.message || 'Error al cargar usuarios');
     }
     setLoading(false);
   }, [page]);
@@ -46,7 +49,7 @@ function UserList() {
   const handleNext = () => {
     if (page < totalPages) {
       setPage(page + 1);
-    }
+    } 
   };
 
   const closeModal = () => setSelectedUserId(null);
@@ -65,7 +68,7 @@ function UserList() {
             className="user-card"
             onClick={() => setSelectedUserId(user.id)}
           >
-            <Avatar src={user.avatar} alt={user.first_name} size={60} />
+            <Avatar src={user.avatar} alt={user.first_name} size={60} className="user-avatar" />
             <div>
               <strong>{user.first_name} {user.last_name}</strong><br />
               <small>{user.email}</small>
@@ -89,3 +92,4 @@ function UserList() {
 }
 
 export default UserList;
+

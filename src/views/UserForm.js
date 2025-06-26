@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { createUser, fetchUser, updateUser } from '../services/userService';
+import UserRepository from '../repositories/userRepository';
+import { mapUserFromApi, mapUserToApi } from '../mappers/userMapper';
 import './UserForm.css';
 import Button from '../components/Button';
 import Avatar from '../components/Avatar';
@@ -14,20 +15,25 @@ const AVATARS = [
 
 function UserForm() {
   const { id } = useParams();
-  const [form, setForm] = useState({ name: '', email: '', avatar: AVATARS[0] });
+  const [form, setForm] = useState({ first_name: '', last_name: '', email: '', avatar: AVATARS[0] });
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
     if (id) {
-      fetchUser(id)
+      UserRepository.getById(id)
         .then(data => {
-          const user = data.data;
+          if (!data?.data) {
+            setError('Error: usuario no encontrado');
+            return;
+          }
+          const user = mapUserFromApi(data.data);
           setForm({
-            name: user.first_name || '',
+            first_name: user.first_name || '',
+            last_name: user.last_name || '',
             email: user.email || '',
-            avatar: user.avatar || AVATARS[0]
+            avatar: user.avatar || AVATARS[0],
           });
         })
         .catch(() => setError('Error al cargar usuario'));
@@ -47,14 +53,15 @@ function UserForm() {
     setError(null);
     setSuccess('');
     try {
+      const apiUser = mapUserToApi(form);
       if (id) {
-        await updateUser(id, form);
+        await UserRepository.update(id, apiUser);
         setSuccess('Usuario actualizado');
       } else {
-        await createUser(form);
+        await UserRepository.create(apiUser);
         setSuccess('Usuario creado');
       }
-      setTimeout(() => navigate('/usuarios'), 1000); 
+      setTimeout(() => navigate('/usuarios'), 1000);
     } catch {
       setError(id ? 'Error al actualizar usuario' : 'Error al crear usuario');
     }
@@ -65,9 +72,16 @@ function UserForm() {
       <form className="user-form" onSubmit={handleSubmit}>
         <h2>{id ? `Editar Usuario ID: ${id}` : 'Crear Nuevo Usuario'}</h2>
         <input
-          name="name"
+          name="first_name"
           placeholder="Nombre"
-          value={form.name}
+          value={form.first_name}
+          onChange={handleChange}
+          required
+        />
+        <input
+          name="last_name"
+          placeholder="Apellido"
+          value={form.last_name}
           onChange={handleChange}
           required
         />
@@ -103,4 +117,5 @@ function UserForm() {
 }
 
 export default UserForm;
+
 
