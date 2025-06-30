@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import UserRepository from '../repositories/userRepository';
+import userRepository from '../repositories/userRepository';
 import { mapUserFromApi } from '../mappers/userMapper';
 import './UserDetail.css';
 import Button from '../components/Button';
@@ -14,7 +14,7 @@ function UserDetail({ userId, onBack, onUpdate }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    UserRepository.getById(userId)
+    userRepository.getById(userId)
       .then(data => {
         if (!data?.data) {
           setError('Detalles no disponibles para este usuario (API de prueba).');
@@ -31,7 +31,7 @@ function UserDetail({ userId, onBack, onUpdate }) {
   const handleDelete = async () => {
     if (window.confirm('¿Seguro que quieres eliminar este usuario?')) {
       try {
-        await UserRepository.delete(userId);
+        await userRepository.delete(userId);
         setSuccess('Usuario eliminado');
         onUpdate?.();
         onBack?.();

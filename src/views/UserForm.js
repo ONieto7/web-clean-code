@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import UserRepository from '../repositories/userRepository';
+import userRepository from '../repositories/userRepository';
 import { mapUserFromApi, mapUserToApi } from '../mappers/userMapper';
 import './UserForm.css';
 import Button from '../components/Button';
@@ -22,7 +22,7 @@ function UserForm() {
 
   useEffect(() => {
     if (id) {
-      UserRepository.getById(id)
+      userRepository.getById(id)
         .then(data => {
           if (!data?.data) {
             setError('Error: usuario no encontrado');
@@ -55,10 +55,10 @@ function UserForm() {
     try {
       const apiUser = mapUserToApi(form);
       if (id) {
-        await UserRepository.update(id, apiUser);
+        await userRepository.update(id, apiUser);
         setSuccess('Usuario actualizado');
       } else {
-        await UserRepository.create(apiUser);
+        await userRepository.create(apiUser);
         setSuccess('Usuario creado');
       }
       setTimeout(() => navigate('/usuarios'), 1000);

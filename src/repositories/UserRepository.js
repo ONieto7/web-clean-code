@@ -1,6 +1,6 @@
 import * as userService from '../services/userService';
 
-const UserRepository = {
+const userRepository = {
   getAll: (page) => userService.fetchUsers(page),
   getById: (id) => userService.fetchUser(id),
   create: (data) => userService.createUser(data),
@@ -8,4 +8,4 @@ const UserRepository = {
   delete: (id) => userService.deleteUser(id),
 };
 
-export default UserRepository;
+export default userRepository;
