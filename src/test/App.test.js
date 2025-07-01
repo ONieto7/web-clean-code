@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
-import Button from '../components/Button';
+import App from '../App';
 
-test('renders button with text', () => {
-  render(<Button>Click me</Button>);
-  expect(screen.getByText(/Click me/i)).toBeInTheDocument();
+test('renderiza la vista Home en la ruta raíz', () => {
+  render(<App />);
+  expect(screen.getByText(/prueba técnica: CRUD de usuarios/i)).toBeInTheDocument();
 });
