@@ -1,23 +1,88 @@
-# web-clean-code
-Ejercicios de desarrollo web aplicando código limpio y pruebas
+# Web Clean Code - CRUD Users
 
-Mejoras
-- El proyecto siempre en raiz.
-- Fuera archivos vacios.
-- Mandar vistas a (Views/Pages)
-- Hacer componente boton y similares
-- Por cada vista --> Una carpeta <userList.css y UserList.js>
-- Alerts --> Sustituirlo por modales
-- Los if's siempre con llaves
-- Nunca estilos en Linea
+This project is a React application to manage users (CRUD) following clean code best practices.
 
-- En los tests nunca hay logica
-- Tests: Probamos flujo completo
-- https://medium.com/@michikatrins/unit-testing-and-the-arrange-act-and-assert-aaa-pattern-espa%C3%B1ol-54ba67d28859
-- https://testing-library.com/docs/react-testing-library/cheatsheet/ (findby)
-- En los test cargamos toda la aplicacion
-- Salvo muy honrosas excepciones, sin comentarios en el codigo.
-- https://refactoring.guru/es/design-patterns
+## Installation
+
+1. Clone the repository:
+   ```
+   git clone https://github.com/youruser/your-repo.git
+   cd your-repo
+   ```
+2. Install dependencies:
+   ```
+   npm install
+   ```
+
+## Usage
+
+To start the application in development mode:
+```
+npm start
+```
+The app will be available at [http://localhost:3000](http://localhost:3000).
+
+## Run tests
+
+To run the tests:
+```
+npm test
+```
+
+## Project structure
+
+```
+src/
+  components/
+  views/
+  repositories/
+  mappers/
+  services/
+  App.js
+  index.js
+```
+
+## Technologies
+
+- React
+- React Router
+- Jest + React Testing Library
+
+---
+
+Contributions and suggestions are welcome!
+
+---
+
+## Improvements implemented
+
+- [x] Project always at the root.
+- [x] Removed empty files.
+- [x] Views organized in (Views/Pages).
+- [x] Reusable components like button and similar.
+- [x] Each view in its own folder (`UserList.css` and `UserList.js`).
+- [x] Alerts replaced by modals.
+- [x] Always use braces with if statements.
+- [x] Never use inline styles.
+- [x] No logic inside tests.
+- [x] Tests: full flow coverage.
+- [x] Tests load the entire application.
+- [x] Except for rare cases, no comments in the code.
+- [x] Customized README.
+
+---
+
+## Next steps
+
+- [ ] Add tests for reusable components (Button, Avatar, Modal, Alert, etc.)
+- [ ] Add integration tests to cover full user flows (navigation, create/edit/delete user, etc.)
+
+---
+
+### References and best practices
+
+- [AAA Pattern for tests](https://medium.com/@michikatrins/unit-testing-and-the-arrange-act-and-assert-aaa-pattern-espa%C3%B1ol-54ba67d28859)
+- [Testing Library Cheatsheet](https://testing-library.com/docs/react-testing-library/cheatsheet/)
+- [Design Patterns](https://refactoring.guru/es/design-patterns)
     - Adapter / Mapper Pattern
-    - Repository Pattern (capa de acceso a datos)
-- Customizar Readme
+    - Repository Pattern (data access layer)
