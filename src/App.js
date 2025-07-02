@@ -1,9 +1,9 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import './App.css';
-import Home from './views/Home';
-import UserList from './views/UserList';
-import UserDetail from './views/UserDetail';
-import UserForm from './views/UserForm';
+import Home from './views/Home/Home';
+import UserList from './views/UserList/UserList';
+import UserDetail from './views/UserDetail/UserDetail';
+import UserForm from './views/UserForm/UserForm';
 
 function App() {
   return (
