@@ -1,9 +1,9 @@
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import UserList from '../views/UserList';
+import UserList from './UserList';
 
-jest.mock('../repositories/userRepository', () => ({
+jest.mock('../../repositories/userRepository', () => ({
   getAll: jest.fn(),
 }));
 
@@ -22,7 +22,7 @@ describe('UserList', () => {
   });
 
   test('renderiza el título de la lista', async () => {
-    require('../repositories/userRepository').getAll.mockResolvedValue(mockUsers);
+    require('../../repositories/userRepository').getAll.mockResolvedValue(mockUsers);
     render(
       <MemoryRouter>
         <UserList />
@@ -36,7 +36,7 @@ describe('UserList', () => {
   });
 
   test('muestra mensaje de carga', async () => {
-    require('../repositories/userRepository').getAll.mockImplementation(() => new Promise(() => {}));
+    require('../../repositories/userRepository').getAll.mockImplementation(() => new Promise(() => {}));
     render(
       <MemoryRouter>
         <UserList />
@@ -46,7 +46,7 @@ describe('UserList', () => {
   });
 
   test('muestra mensaje de error si la API falla', async () => {
-    require('../repositories/userRepository').getAll.mockRejectedValue(new Error('Error de API'));
+    require('../../repositories/userRepository').getAll.mockRejectedValue(new Error('Error de API'));
     render(
       <MemoryRouter>
         <UserList />
@@ -58,7 +58,7 @@ describe('UserList', () => {
   });
 
   test('botón siguiente está deshabilitado en la última página', async () => {
-    require('../repositories/userRepository').getAll.mockResolvedValue({ ...mockUsers, page: 2 });
+    require('../../repositories/userRepository').getAll.mockResolvedValue({ ...mockUsers, page: 2 });
     render(
       <MemoryRouter>
         <UserList />
@@ -70,7 +70,7 @@ describe('UserList', () => {
   });
 
   test('botón anterior está deshabilitado en la primera página', async () => {
-    require('../repositories/userRepository').getAll.mockResolvedValue({ ...mockUsers, page: 1 });
+    require('../../repositories/userRepository').getAll.mockResolvedValue({ ...mockUsers, page: 1 });
     render(
       <MemoryRouter>
         <UserList />

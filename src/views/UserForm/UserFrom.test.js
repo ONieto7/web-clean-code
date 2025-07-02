@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import UserForm from '../views/UserForm';
+import UserForm from './UserForm';
 import userEvent from '@testing-library/user-event';
 
 test('renderiza el formulario con los campos básicos', () => {

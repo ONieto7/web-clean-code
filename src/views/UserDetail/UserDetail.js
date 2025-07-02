@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import userRepository from '../repositories/userRepository';
-import { mapUserFromApi } from '../mappers/userMapper';
-import './UserDetail.css';
-import Button from '../components/Button';
-import Avatar from '../components/Avatar';
-import Alert from '../components/Alert';
+import userRepository from '../../repositories/userRepository';
+import { mapUserFromApi } from '../../mappers/userMapper';
+import Button from '../../components/Button/Button';
+import Avatar from '../../components/Avatar/Avatar';
+import Alert from '../../components/Alert/Alert';
 
 function UserDetail({ userId, onBack, onUpdate }) {
   const [user, setUser] = useState(null);

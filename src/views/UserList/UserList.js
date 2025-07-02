@@ -1,13 +1,13 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import UserDetail from './UserDetail';
+import UserDetail from '../UserDetail/UserDetail';
 import './UserList.css';
-import Button from '../components/Button';
-import Avatar from '../components/Avatar';
-import Alert from '../components/Alert';
-import Modal from '../components/Modal';
+import Button from '../../components/Button/Button';
+import Avatar from '../../components/Avatar/Avatar';
+import Alert from '../../components/Alert/Alert';
+import Modal from '../../components/Modal/Modal';
 
-import userRepository from '../repositories/userRepository';
-import { mapUserFromApi } from '../mappers/userMapper';
+import userRepository from '../../repositories/userRepository';
+import { mapUserFromApi } from '../../mappers/userMapper';
 
 function UserList() {
   const [users, setUsers] = useState([]);

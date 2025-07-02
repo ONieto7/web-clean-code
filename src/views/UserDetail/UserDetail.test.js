@@ -1,9 +1,9 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import UserDetail from '../views/UserDetail';
+import UserDetail from './UserDetail';
 import userEvent from '@testing-library/user-event';
 
-jest.mock('../repositories/userRepository', () => ({
+jest.mock('../../repositories/userRepository', () => ({
   getById: jest.fn(),
 }));
 
@@ -23,7 +23,7 @@ describe('UserDetail', () => {
   });
 
   test('muestra mensaje de carga y luego los datos del usuario si la API responde bien', async () => {
-    require('../repositories/userRepository').getById.mockResolvedValue(mockUser);
+    require('../../repositories/userRepository').getById.mockResolvedValue(mockUser);
     render(
       <MemoryRouter>
         <UserDetail userId={1} />
@@ -37,7 +37,7 @@ describe('UserDetail', () => {
   });
 
   test('muestra mensaje de carga y luego error si la API falla', async () => {
-    require('../repositories/userRepository').getById.mockRejectedValue(new Error('API Error'));
+    require('../../repositories/userRepository').getById.mockRejectedValue(new Error('API Error'));
     render(
       <MemoryRouter>
         <UserDetail userId={1} />
@@ -50,7 +50,7 @@ describe('UserDetail', () => {
   });
 
   test('muestra mensaje de detalles no disponibles si la API responde sin datos', async () => {
-    require('../repositories/userRepository').getById.mockResolvedValue({});
+    require('../../repositories/userRepository').getById.mockResolvedValue({});
     render(
       <MemoryRouter>
         <UserDetail userId={1} />
@@ -64,8 +64,8 @@ describe('UserDetail', () => {
 
   test('elimina usuario y muestra mensaje de éxito', async () => {
     const mockDelete = jest.fn().mockResolvedValue({});
-    require('../repositories/userRepository').getById.mockResolvedValue(mockUser);
-    require('../repositories/userRepository').delete = mockDelete;
+    require('../../repositories/userRepository').getById.mockResolvedValue(mockUser);
+    require('../../repositories/userRepository').delete = mockDelete;
     window.confirm = jest.fn(() => true);
 
     render(

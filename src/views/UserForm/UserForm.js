@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import userRepository from '../repositories/userRepository';
-import { mapUserFromApi, mapUserToApi } from '../mappers/userMapper';
+import userRepository from '../../repositories/userRepository';
+import { mapUserFromApi, mapUserToApi } from '../../mappers/userMapper';
 import './UserForm.css';
-import Button from '../components/Button';
-import Avatar from '../components/Avatar';
-import Alert from '../components/Alert';
+import Button from '../../components/Button/Button';
+import Avatar from '../../components/Avatar/Avatar';
+import Alert from '../../components/Alert/Alert';
 
 const AVATARS = [
   'https://randomuser.me/api/portraits/men/1.jpg',
