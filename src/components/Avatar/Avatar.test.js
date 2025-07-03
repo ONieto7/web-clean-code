@@ -1,14 +1,14 @@
 import { render, screen } from '@testing-library/react';
 import Avatar from './Avatar';
 
-test('renderiza la imagen con el src y alt correctos', () => {
-  render(<Avatar src="avatar.jpg" alt="Avatar de usuario" />);
-  const img = screen.getByAltText(/avatar de usuario/i);
+test('renders the image with the correct src and alt', () => {
+  render(<Avatar src="avatar.jpg" alt="User avatar" />);
+  const img = screen.getByAltText(/user avatar/i);
   expect(img).toBeInTheDocument();
   expect(img).toHaveAttribute('src', 'avatar.jpg');
 });
 
-test('usa un alt por defecto si no se pasa la prop alt', () => {
+test('uses a default alt if the alt prop is not provided', () => {
   render(<Avatar src="avatar.jpg" />);
   const img = screen.getByRole('img');
   expect(img).toHaveAttribute('alt');

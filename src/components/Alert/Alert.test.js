@@ -1,24 +1,24 @@
 import { render, screen } from '@testing-library/react';
 import Alert from './Alert';
 
-test('renderiza el mensaje dentro de la alerta', () => {
-  render(<Alert>Mensaje de alerta</Alert>);
-  expect(screen.getByText(/mensaje de alerta/i)).toBeInTheDocument();
+test('renders the message inside the alert', () => {
+  render(<Alert>Alert message</Alert>);
+  expect(screen.getByText(/alert message/i)).toBeInTheDocument();
 });
 
-test('usa la clase por defecto alert-info si no se pasa type', () => {
+test('uses the default class alert-info if no type is provided', () => {
   render(<Alert>Info</Alert>);
   const alert = screen.getByText(/info/i);
   expect(alert).toHaveClass('alert-info');
 });
 
-test('usa la clase alert-success si se pasa type="success"', () => {
-  render(<Alert type="success">Éxito</Alert>);
-  const alert = screen.getByText(/éxito/i);
+test('uses the class alert-success if type="success" is provided', () => {
+  render(<Alert type="success">Success</Alert>);
+  const alert = screen.getByText(/success/i);
   expect(alert).toHaveClass('alert-success');
 });
 
-test('usa la clase alert-error si se pasa type="error"', () => {
+test('uses the class alert-error if type="error" is provided', () => {
   render(<Alert type="error">Error</Alert>);
   const alert = screen.getByText(/error/i);
   expect(alert).toHaveClass('alert-error');

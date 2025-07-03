@@ -3,7 +3,7 @@ import { MemoryRouter } from 'react-router-dom';
 import UserForm from './UserForm';
 import userEvent from '@testing-library/user-event';
 
-test('renderiza el formulario con los campos básicos', () => {
+test('renders the form with basic fields', () => {
   render(
     <MemoryRouter>
       <UserForm />
@@ -15,7 +15,7 @@ test('renderiza el formulario con los campos básicos', () => {
   expect(screen.getByText(/Crear Nuevo Usuario/i)).toBeInTheDocument();
 });
 
-test('muestra los avatares disponibles', () => {
+test('displays available avatars', () => {
   render(
     <MemoryRouter>
       <UserForm />
@@ -25,7 +25,7 @@ test('muestra los avatares disponibles', () => {
   expect(avatars.length).toBeGreaterThan(0);
 });
 
-test('permite escribir en los campos del formulario', () => {
+test('allows typing in form fields', () => {
   render(
     <MemoryRouter>
       <UserForm />

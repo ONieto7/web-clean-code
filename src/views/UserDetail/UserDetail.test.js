@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import UserDetail from './UserDetail';
 import userEvent from '@testing-library/user-event';
@@ -22,50 +22,54 @@ describe('UserDetail', () => {
     jest.clearAllMocks();
   });
 
-  test('muestra mensaje de carga y luego los datos del usuario si la API responde bien', async () => {
+  test('displays loading message and then user data when API responds successfully', async () => {
     require('../../repositories/userRepository').getById.mockResolvedValue(mockUser);
+
     render(
       <MemoryRouter>
         <UserDetail userId={1} />
       </MemoryRouter>
     );
+
     expect(screen.getByText(/Cargando detalles/i)).toBeInTheDocument();
-    await waitFor(() => {
-      expect(screen.getByText(/Oscar Pérez/i)).toBeInTheDocument();
-      expect(screen.getByText(/oscar@mail.com/i)).toBeInTheDocument();
-    });
+
+    expect(await screen.findByText(/Oscar Pérez/i)).toBeInTheDocument();
+    expect(await screen.findByText(/oscar@mail.com/i)).toBeInTheDocument();
   });
 
-  test('muestra mensaje de carga y luego error si la API falla', async () => {
+  test('displays loading message and then error message when API fails', async () => {
     require('../../repositories/userRepository').getById.mockRejectedValue(new Error('API Error'));
+
     render(
       <MemoryRouter>
         <UserDetail userId={1} />
       </MemoryRouter>
     );
+
     expect(screen.getByText(/Cargando detalles/i)).toBeInTheDocument();
-    await waitFor(() => {
-      expect(screen.getByText(/Error al cargar el usuario/i)).toBeInTheDocument();
-    });
+
+    expect(await screen.findByText(/Error al cargar el usuario/i)).toBeInTheDocument();
   });
 
-  test('muestra mensaje de detalles no disponibles si la API responde sin datos', async () => {
+  test('displays "details not available" message when API returns no data', async () => {
     require('../../repositories/userRepository').getById.mockResolvedValue({});
+
     render(
       <MemoryRouter>
         <UserDetail userId={1} />
       </MemoryRouter>
     );
+
     expect(screen.getByText(/Cargando detalles/i)).toBeInTheDocument();
-    await waitFor(() => {
-      expect(screen.getByText(/Detalles no disponibles/i)).toBeInTheDocument();
-    });
+
+    expect(await screen.findByText(/Detalles no disponibles/i)).toBeInTheDocument();
   });
 
-  test('elimina usuario y muestra mensaje de éxito', async () => {
+  test('deletes user and displays success message', async () => {
     const mockDelete = jest.fn().mockResolvedValue({});
     require('../../repositories/userRepository').getById.mockResolvedValue(mockUser);
     require('../../repositories/userRepository').delete = mockDelete;
+
     window.confirm = jest.fn(() => true);
 
     render(
@@ -74,15 +78,11 @@ describe('UserDetail', () => {
       </MemoryRouter>
     );
 
-    await waitFor(() => {
-      expect(screen.getByText(/Oscar Pérez/i)).toBeInTheDocument();
-    });
+    expect(await screen.findByText(/Oscar Pérez/i)).toBeInTheDocument();
 
     userEvent.click(screen.getByText(/Eliminar usuario/i));
 
-    await waitFor(() => {
-      expect(mockDelete).toHaveBeenCalledWith(1);
-      expect(screen.getByText(/Usuario eliminado/i)).toBeInTheDocument();
-    });
+    expect(await screen.findByText(/Usuario eliminado/i)).toBeInTheDocument();
+    expect(mockDelete).toHaveBeenCalledWith(1);
   });
 });

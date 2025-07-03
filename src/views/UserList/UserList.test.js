@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import UserList from './UserList';
 
@@ -21,7 +21,7 @@ describe('UserList', () => {
     jest.clearAllMocks();
   });
 
-  test('renderiza el título de la lista', async () => {
+  test('renders the user list title', async () => {
     require('../../repositories/userRepository').getAll.mockResolvedValue(mockUsers);
     render(
       <MemoryRouter>
@@ -29,13 +29,12 @@ describe('UserList', () => {
       </MemoryRouter>
     );
     expect(screen.getByText(/Listado de Usuarios/i)).toBeInTheDocument();
-    await waitFor(() => {
-      expect(screen.getByText(/Oscar Pérez/i)).toBeInTheDocument();
-      expect(screen.getByText(/Ana López/i)).toBeInTheDocument();
-    });
+    // Esperamos que aparezcan los usuarios con findByText (async)
+    expect(await screen.findByText(/Oscar Pérez/i)).toBeInTheDocument();
+    expect(await screen.findByText(/Ana López/i)).toBeInTheDocument();
   });
 
-  test('muestra mensaje de carga', async () => {
+  test('shows loading message', () => {
     require('../../repositories/userRepository').getAll.mockImplementation(() => new Promise(() => {}));
     render(
       <MemoryRouter>
@@ -45,40 +44,36 @@ describe('UserList', () => {
     expect(screen.getByText(/Cargando usuarios/i)).toBeInTheDocument();
   });
 
-  test('muestra mensaje de error si la API falla', async () => {
+  test('shows error message if API fails', async () => {
     require('../../repositories/userRepository').getAll.mockRejectedValue(new Error('Error de API'));
     render(
       <MemoryRouter>
         <UserList />
       </MemoryRouter>
     );
-    await waitFor(() => {
-      expect(screen.getByText(/Error de API/i)).toBeInTheDocument();
-    });
+    expect(await screen.findByText(/Error de API/i)).toBeInTheDocument();
   });
 
-  test('botón siguiente está deshabilitado en la última página', async () => {
+  test('next button is disabled on last page', async () => {
     require('../../repositories/userRepository').getAll.mockResolvedValue({ ...mockUsers, page: 2 });
     render(
       <MemoryRouter>
         <UserList />
       </MemoryRouter>
     );
-    await waitFor(() => {
-      expect(screen.getByRole('button', { name: /Siguiente/i })).toBeDisabled();
-    });
+    expect(await screen.findByRole('button', { name: /Siguiente/i })).toBeDisabled();
   });
 
-  test('botón anterior está deshabilitado en la primera página', async () => {
+  test('previous button is disabled on first page', async () => {
     require('../../repositories/userRepository').getAll.mockResolvedValue({ ...mockUsers, page: 1 });
     render(
       <MemoryRouter>
         <UserList />
       </MemoryRouter>
     );
-    await waitFor(() => {
-      expect(screen.getByRole('button', { name: /Anterior/i })).toBeDisabled();
-    });
+    expect(await screen.findByRole('button', { name: /Anterior/i })).toBeDisabled();
   });
 });
+
+
 

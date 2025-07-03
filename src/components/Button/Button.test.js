@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Button from './Button';
 
-test('renderiza el botón y responde al click', () => {
+test('renders the button and responds to click', () => {
   const handleClick = jest.fn();
   render(<Button onClick={handleClick}>Click me</Button>);
   const btn = screen.getByRole('button', { name: /click me/i });
@@ -11,7 +11,7 @@ test('renderiza el botón y responde al click', () => {
   expect(handleClick).toHaveBeenCalledTimes(1);
 });
 
-test('el botón se deshabilita cuando recibe la prop disabled', () => {
+test('the button is disabled when the disabled prop is provided', () => {
   render(<Button disabled>Disabled</Button>);
   const btn = screen.getByRole('button', { name: /disabled/i });
   expect(btn).toBeDisabled();
