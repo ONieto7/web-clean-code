@@ -1,9 +1,7 @@
 import { render, screen } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
-import Home from './Home';
+import App from '../../App';
 
-// Mock useNavigate from react-router-dom
 const mockNavigate = jest.fn();
 
 jest.mock('react-router-dom', () => ({
@@ -11,43 +9,29 @@ jest.mock('react-router-dom', () => ({
   useNavigate: () => mockNavigate,
 }));
 
-describe('Home Component', () => {
+describe('App Component', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  test('renders title and buttons correctly', () => {
-    render(
-      <MemoryRouter>
-        <Home />
-      </MemoryRouter>
-    );
-
+  test('renders home page content', () => {
+    render(<App />);
     expect(screen.getByText(/Prueba técnica: CRUD de usuarios/i)).toBeInTheDocument();
     expect(screen.getByText(/Ver usuarios/i)).toBeInTheDocument();
     expect(screen.getByText(/Crear nuevo usuario/i)).toBeInTheDocument();
   });
 
   test('navigates to /usuarios when "Ver usuarios" button is clicked', async () => {
-    render(
-      <MemoryRouter>
-        <Home />
-      </MemoryRouter>
-    );
-
+    render(<App />);
     await userEvent.click(screen.getByText(/Ver usuarios/i));
     expect(mockNavigate).toHaveBeenCalledWith('/usuarios');
   });
 
   test('navigates to /usuarios/nuevo when "Crear nuevo usuario" button is clicked', async () => {
-    render(
-      <MemoryRouter>
-        <Home />
-      </MemoryRouter>
-    );
-
+    render(<App />);
     await userEvent.click(screen.getByText(/Crear nuevo usuario/i));
     expect(mockNavigate).toHaveBeenCalledWith('/usuarios/nuevo');
   });
 });
+
 
