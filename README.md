@@ -69,13 +69,13 @@ Contributions and suggestions are welcome!
 - [x] Tests load the entire application.
 - [x] Except for rare cases, no comments in the code.
 - [x] Customized README.
+- [x] Add tests for reusable components (Button, Avatar, Modal, Alert, etc.)
+- [x] Add integration tests to cover full user flows (navigation, create/edit/delete user, etc.)
 
 ---
 
 ## Next steps
 
-- [ ] Add tests for reusable components (Button, Avatar, Modal, Alert, etc.)
-- [ ] Add integration tests to cover full user flows (navigation, create/edit/delete user, etc.)
 
 ---
 
